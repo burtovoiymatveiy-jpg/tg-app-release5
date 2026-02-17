@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -22,9 +22,14 @@
             display: flex; flex-direction: column; gap: 12px; transition: 0.3s;
         }
 
-        #skeleton { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 16px; box-sizing: border-box; }
-        .sk-card { background: var(--sec-bg); height: 60px; border-radius: 16px; margin-bottom: 12px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(52, 199, 89, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+        }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot-online { background: var(--accent-green); animation: pulse-green 2s infinite; }
+        .dot-offline { background: #ff9500; }
 
         .theme-toggle {
             position: absolute; top: 12px; right: 16px; background: var(--sec-bg);
@@ -33,54 +38,36 @@
         }
 
         .card { background: var(--sec-bg); border-radius: 16px; padding: 14px; border: 1px solid var(--card-border); }
-        .error-border { border-color: var(--accent-red) !important; animation: shake 0.3s; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+        .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        label { font-size: 10px; color: var(--hint); font-weight: 800; text-transform: uppercase; margin: 0; }
+        .tip-icon { font-size: 12px; color: var(--accent); cursor: pointer; padding: 2px 6px; background: var(--bg); border-radius: 50%; border: 1px solid var(--card-border); }
 
-        label { font-size: 10px; color: var(--hint); font-weight: 800; text-transform: uppercase; margin-bottom: 4px; display: block; }
         input, select, textarea {
             background: var(--bg); border: 1px solid var(--card-border); border-radius: 10px;
             color: var(--text); font-size: 16px; padding: 10px; width: 100%; box-sizing: border-box; outline: none;
         }
 
-        .switch {
-            position: relative; display: inline-block; width: 40px; height: 22px; margin: 0;
-        }
+        .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--toggle-off); transition: .3s; border-radius: 22px;
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
-            background-color: white; transition: .3s; border-radius: 50%;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--toggle-off); transition: .3s; border-radius: 22px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--accent-green); }
         input:checked + .slider:before { transform: translateX(18px); }
 
-        .preview-box {
-            background: var(--sec-bg); border: 1px dashed var(--hint); border-radius: 12px;
-            padding: 12px; font-family: monospace; font-size: 12px; white-space: pre-line;
-            max-height: 0; opacity: 0; overflow: hidden; transition: 0.4s ease-in-out;
-            margin: 0;
-        }
-        .preview-box.show { max-height: 400px; opacity: 1; margin-bottom: 10px; border: 1px solid var(--accent); }
+        .preview-box { background: var(--sec-bg); border: 1px dashed var(--hint); border-radius: 12px; padding: 12px; font-family: monospace; font-size: 12px; white-space: pre-line; max-height: 0; opacity: 0; overflow: hidden; transition: 0.4s; }
+        .preview-box.show { max-height: 500px; opacity: 1; margin-bottom: 10px; border: 1px solid var(--accent); }
 
         .main-btn { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; }
         .row { display: flex; gap: 8px; }
         .secondary-btn { background: var(--sec-bg); border: 1px solid var(--card-border); color: var(--accent); padding: 10px; border-radius: 12px; font-size: 13px; font-weight: 600; text-align: center; flex: 1; cursor: pointer; }
         
-        .disclaimer { font-size: 10px; color: var(--hint); line-height: 1.3; text-align: center; margin-top: 8px; }
-        .stats-box { text-align: center; border-top: 1px solid var(--card-border); padding-top: 12px; margin-top: 4px; }
+        .advantage-item { text-align: center; flex: 1; }
+        .advantage-icon { font-size: 20px; margin-bottom: 2px; }
+        .advantage-text { font-size: 9px; font-weight: 700; color: var(--hint); text-transform: uppercase; }
+        .disclaimer { font-size: 10px; color: var(--hint); text-align: center; margin-top: 8px; }
     </style>
 </head>
 <body>
-
-<div id="skeleton">
-    <div class="sk-card" style="width: 40%;"></div>
-    <div class="sk-card"></div>
-    <div class="sk-card" style="height: 120px;"></div>
-</div>
 
 <div class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</div>
 
@@ -93,143 +80,179 @@
     <div class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">⭐ Отзывы</div>
 </div>
 
+<div class="card" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <div id="status-dot" class="status-dot dot-online"></div>
+        <span id="status-text" style="font-size: 12px; font-weight: 800; text-transform: uppercase;">Статус: Свободен</span>
+    </div>
+    <span id="response-time" style="font-size: 11px; color: var(--hint);">Ответ: 5-10 мин</span>
+</div>
+
+<div style="display: flex; justify-content: space-around; gap: 8px; margin: 4px 0;">
+    <div class="advantage-item">
+        <div class="advantage-icon">⚡️</div>
+        <div class="advantage-text">Быстро</div>
+    </div>
+    <div class="advantage-item">
+        <div class="advantage-icon">💎</div>
+        <div class="advantage-text">Качественно</div>
+    </div>
+    <div class="advantage-item">
+        <div class="advantage-icon">🔒</div>
+        <div class="advantage-text">Анонимно</div>
+    </div>
+</div>
+
 <div class="card">
-    <label>Вид работы</label>
-    <select id="type" onchange="update()">
-        <option value="Реферат">📝 Реферат</option>
-        <option value="Презентация">📊 Презентация</option>
-        <option value="Доклад">🎤 Доклад</option>
-        <option value="Проект">💡 Проект</option>
-        <option value="Переписать лекцию">🖋 Переписать лекцию</option>
-    </select>
+    <div class="label-row">
+        <label>Вид работы и уровень</label>
+        <span class="tip-icon" onclick="showTip('level')">?</span>
+    </div>
+    <div class="row">
+        <select id="type" onchange="update()" style="flex: 2;">
+            <option value="Реферат">📝 Реферат</option>
+            <option value="Презентация">📊 Презентация</option>
+            <option value="Доклад">🎤 Доклад</option>
+            <option value="Проект">💡 Проект</option>
+            <option value="Переписать лекцию">🖋 Переписать лекцию</option>
+        </select>
+        <select id="level" onchange="update()" style="flex: 1.2;">
+            <option value="Школа">🏫 Школа</option>
+            <option value="Колледж">🎓 Колледж</option>
+            <option value="ВУЗ">🏛 ВУЗ</option>
+        </select>
+    </div>
+    
     <div class="row" style="margin-top:10px">
-        <div><label id="unit-label">Количество страниц</label><input type="number" id="count" placeholder="0" oninput="update()"></div>
-        <div><label>Дедлайн (ДД.ММ)</label><input type="text" id="date" maxlength="5" oninput="update()"></div>
+        <div style="flex:1">
+            <label id="unit-label">Кол-во страниц</label>
+            <input type="number" id="count" placeholder="0" oninput="update()">
+        </div>
+        <div style="flex:1">
+            <div class="label-row">
+                <label>Дедлайн</label>
+                <span class="tip-icon" onclick="showTip('deadline')">?</span>
+            </div>
+            <input type="text" id="date" maxlength="5" placeholder="25.05" oninput="update()">
+        </div>
     </div>
 </div>
 
 <div class="card">
-    <label>Остальные детали</label>
-    <textarea id="details" rows="2" placeholder="Напр: шрифт Times New Roman..." oninput="update()"></textarea>
-    <div style="margin-top:10px"><label>Сумма (₽)</label><input type="text" id="price" placeholder="500" oninput="update()"></div>
+    <div class="label-row">
+        <label>Детали и бюджет</label>
+        <span class="tip-icon" onclick="showTip('details')">?</span>
+    </div>
+    <textarea id="details" rows="2" placeholder="Шрифт Times New Roman, тема..." oninput="update()"></textarea>
+    <div style="margin-top:10px">
+        <label>Сумма (₽)</label>
+        <input type="text" id="price" placeholder="500" oninput="update()">
+    </div>
 </div>
 
-<div class="card" style="padding: 12px 14px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; min-height: 24px;">
-        <span style="font-size: 14px; font-weight: 700; line-height: 1;">🚨 Срочный заказ</span>
-        <label class="switch" style="display: flex; align-items: center;">
-            <input type="checkbox" id="urgent" onchange="update()">
-            <span class="slider"></span>
-        </label>
-    </div>
+<div class="card" style="padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-size: 14px; font-weight: 700;">🚨 Срочный заказ</span>
+    <label class="switch"><input type="checkbox" id="urgent" onchange="update()"><span class="slider"></span></label>
 </div>
 
 <div class="preview-box" id="preview"></div>
-
 <button class="main-btn" onclick="copy()">Скопировать анкету</button>
 
 <div class="row">
     <button class="secondary-btn" style="color:var(--accent-red)" onclick="clearAll()">🗑 Очистить</button>
-    <button class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">✍️ Написать отзыв</button>
-</div>
-
-<div class="stats-box">
-    <div style="font-size:11px; color:var(--hint); margin-bottom: 4px;">Все отзывы о проделанной работе здесь:</div>
-    <div style="font-size:13px; color:var(--accent); font-weight: 700; cursor:pointer;" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">t.me/OTZblBblawarem</div>
+    <button class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">✍️ Отзыв</button>
 </div>
 
 <div class="disclaimer">
-    💳 <b>Предоплата 100%</b><br>
-    ⚠️ Ответственность за правки технического задания после начала работы не несу.<br>
-    ✅ Работа предназначена для мест <b>без проверки на антиплагиат</b>.
+    💳 <b>Предоплата 100%</b> | ✅ Без антиплагиата
 </div>
 
 <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    setTimeout(() => document.getElementById('skeleton').style.display = 'none', 1000);
-
-    function setDatePlaceholder() {
-        const now = new Date();
-        const dd = String(now.getDate()).padStart(2, '0');
-        const mm = String(now.getMonth() + 1).padStart(2, '0');
-        document.getElementById('date').placeholder = `${dd}.${mm}`;
+    function showTip(f) {
+        const tips = {
+            level: "Укажите уровень сложности работы.",
+            deadline: "Дата сдачи (ДД.ММ).",
+            details: "Укажите тему и важные требования (источники, оформление)."
+        };
+        tg.showAlert(tips[f]);
     }
-    setDatePlaceholder();
+
+    function checkNight() {
+        const now = new Date();
+        // Настройка часового пояса МСК+6 (Якутск)
+        const options = { timeZone: 'Asia/Yakutsk', hour: 'numeric', hour12: false };
+        const h = parseInt(new Intl.DateTimeFormat('ru-RU', options).format(now));
+        
+        const isN = h >= 23 || h < 7;
+        const sT = document.getElementById('status-text');
+        const sD = document.getElementById('status-dot');
+        const rT = document.getElementById('response-time');
+
+        if (isN) {
+            sT.innerText = "Статус: Сплю"; 
+            sT.style.color = "var(--hint)";
+            sD.className = "status-dot dot-offline"; 
+            rT.innerText = "Отвечу утром (МСК+6)";
+        } else {
+            sT.innerText = "Статус: Свободен";
+            sT.style.color = "var(--accent-green)";
+            sD.className = "status-dot dot-online";
+            rT.innerText = "Ответ: 5-10 мин";
+        }
+    }
 
     function toggleTheme() {
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
-        document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-        document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
+        const isD = document.body.getAttribute('data-theme') === 'dark';
+        document.body.setAttribute('data-theme', isD ? 'light' : 'dark');
+        document.getElementById('theme-btn').innerText = isD ? '☀️' : '🌙';
         tg.HapticFeedback.impactOccurred('light');
     }
 
+    // Синхронизация с темой ТГ при запуске
     if (tg.colorScheme === 'dark') {
         document.body.setAttribute('data-theme', 'dark');
         document.getElementById('theme-btn').innerText = '🌙';
     }
 
     function update() {
-        const type = document.getElementById('type').value;
-        const countInput = document.getElementById('count');
-        const dateInput = document.getElementById('date');
-        const priceInput = document.getElementById('price');
-        const details = document.getElementById('details').value || 'нет';
-        const isUrgent = document.getElementById('urgent').checked;
+        const type = document.getElementById('type').value, level = document.getElementById('level').value,
+              count = document.getElementById('count').value, date = document.getElementById('date').value,
+              price = document.getElementById('price').value, det = document.getElementById('details').value || 'нет',
+              urg = document.getElementById('urgent').checked;
 
-        let val = dateInput.value.replace(/\D/g, '');
-        if (val.length > 2) val = val.substring(0, 2) + '.' + val.substring(2, 4);
-        dateInput.value = val;
+        document.getElementById('unit-label').innerText = type.includes("През") ? "Кол-во слайдов" : "Кол-во страниц";
+        const show = count && date.length >= 4 && price;
+        document.getElementById('preview').classList.toggle('show', !!show);
 
-        if (countInput.value && dateInput.value.length === 5 && priceInput.value) {
-            document.getElementById('preview').classList.add('show');
-        } else {
-            document.getElementById('preview').classList.remove('show');
-        }
-
-        document.getElementById('unit-label').innerText = type.includes("През") ? "Количество слайдов" : "Количество страниц";
-
-        let header = isUrgent ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
-        const text = `${header}1. Вид: ${type}
-2. Количество: ${countInput.value || '___'}
-3. Дедлайн: ${dateInput.value || '___'}
-4. Сумма: ${priceInput.value || '___'} руб.
-5. Детали: ${details}
----
-✅ Согласен на 100% предоплату и отсутствие антиплагиата.`;
-
-        document.getElementById('preview').innerText = text;
+        let h = urg ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
+        document.getElementById('preview').innerText = `${h}1. Вид: ${type} (${level})\n2. Кол-во: ${count}\n3. Дедлайн: ${date}\n4. Сумма: ${price} руб.\n5. Детали: ${det}\n---\n✅ Согласен на 100% предоплату и отсутствие антиплагиата.`;
     }
 
     function copy() {
         const c = document.getElementById('count'), d = document.getElementById('date'), p = document.getElementById('price');
-        if (!c.value || d.value.length < 5 || !p.value) {
-            [c, d, p].forEach(el => { if(!el.value || el.value.length < 5) el.classList.add('error-border') });
-            tg.showAlert("Заполните все поля!");
-            return;
-        }
-
+        if (!c.value || d.value.length < 4 || !p.value) { tg.showAlert("Заполните поля!"); return; }
+        
         const area = document.createElement("textarea");
         area.value = document.getElementById('preview').innerText;
-        document.body.appendChild(area);
-        area.select();
-        document.execCommand('copy');
-        document.body.removeChild(area);
-
+        document.body.appendChild(area); area.select();
+        document.execCommand('copy'); document.body.removeChild(area);
+        
         tg.HapticFeedback.notificationOccurred('success');
         tg.showAlert("Анкета скопирована!");
-        setTimeout(() => tg.openTelegramLink("https://t.me/awarem"), 500);
+        setTimeout(() => tg.openTelegramLink("https://t.me/awarem"), 800);
     }
 
     function clearAll() {
-        if(confirm("Очистить?")) {
+        if(confirm("Очистить все поля?")) {
             document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-            document.getElementById('urgent').checked = false;
-            update();
+            document.getElementById('urgent').checked = false; update();
         }
     }
 
+    checkNight(); 
     update();
 </script>
 </body>
