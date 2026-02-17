@@ -10,16 +10,32 @@
             --bg: #ffffff; --sec-bg: #f4f4f5; --text: #000000; --hint: #707579;
             --card-border: rgba(0,0,0,0.1); --accent: #3390ec; --accent-red: #ff3b30; --accent-green: #34c759;
             --toggle-off: #dee2e6;
+            /* Градиенты для светлой темы */
+            --gradient-start: #e0f2f7; /* Светло-голубой */
+            --gradient-end: #f0fdf4;   /* Светло-зеленый */
         }
         [data-theme="dark"] {
             --bg: #1c1c1d; --sec-bg: #2c2c2e; --text: #ffffff; --hint: #8e8e93; 
             --card-border: rgba(255,255,255,0.1); --toggle-off: #3a3a3c;
+            /* Градиенты для темной темы */
+            --gradient-start: #1a2a3a; /* Темно-синий */
+            --gradient-end: #2a1a3a;   /* Темно-фиолетовый */
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg); color: var(--text); margin: 0; padding: 16px;
+            color: var(--text); margin: 0; padding: 16px;
             display: flex; flex-direction: column; gap: 12px; transition: 0.3s;
+            /* Анимированный градиент */
+            background: linear-gradient(-45deg, var(--gradient-start), var(--gradient-end));
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         #skeleton { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 16px; box-sizing: border-box; }
@@ -42,9 +58,8 @@
             color: var(--text); font-size: 16px; padding: 10px; width: 100%; box-sizing: border-box; outline: none;
         }
 
-        /* Обновленный Зеленый Toggle Switch */
         .switch {
-            position: relative; display: inline-block; width: 40px; height: 22px;
+            position: relative; display: inline-block; width: 40px; height: 22px; margin: 0;
         }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
@@ -115,10 +130,10 @@
     <div style="margin-top:10px"><label>Сумма (₽)</label><input type="text" id="price" placeholder="500" oninput="update()"></div>
 </div>
 
-<div class="card" style="padding: 10px 14px;">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size: 13px; font-weight: 700;">🚨 Срочный заказ</span>
-        <label class="switch">
+<div class="card" style="padding: 12px 14px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; min-height: 24px;">
+        <span style="font-size: 14px; font-weight: 700; line-height: 1;">🚨 Срочный заказ</span>
+        <label class="switch" style="display: flex; align-items: center;">
             <input type="checkbox" id="urgent" onchange="update()">
             <span class="slider"></span>
         </label>
