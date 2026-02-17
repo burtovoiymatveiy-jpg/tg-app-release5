@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -89,65 +89,31 @@
 </div>
 
 <div style="display: flex; justify-content: space-around; gap: 8px; margin: 4px 0;">
-    <div class="advantage-item">
-        <div class="advantage-icon">⚡️</div>
-        <div class="advantage-text">Быстро</div>
-    </div>
-    <div class="advantage-item">
-        <div class="advantage-icon">💎</div>
-        <div class="advantage-text">Качественно</div>
-    </div>
-    <div class="advantage-item">
-        <div class="advantage-icon">🔒</div>
-        <div class="advantage-text">Анонимно</div>
-    </div>
+    <div class="advantage-item"><div class="advantage-icon">⚡️</div><div class="advantage-text">Быстро</div></div>
+    <div class="advantage-item"><div class="advantage-icon">💎</div><div class="advantage-text">Качественно</div></div>
+    <div class="advantage-item"><div class="advantage-icon">🔒</div><div class="advantage-text">Анонимно</div></div>
 </div>
 
 <div class="card">
-    <div class="label-row">
-        <label>Вид работы и уровень</label>
-        <span class="tip-icon" onclick="showTip('level')">?</span>
-    </div>
-    <div class="row">
-        <select id="type" onchange="update()" style="flex: 2;">
-            <option value="Реферат">📝 Реферат</option>
-            <option value="Презентация">📊 Презентация</option>
-            <option value="Доклад">🎤 Доклад</option>
-            <option value="Проект">💡 Проект</option>
-            <option value="Переписать лекцию">🖋 Переписать лекцию</option>
-        </select>
-        <select id="level" onchange="update()" style="flex: 1.2;">
-            <option value="Школа">🏫 Школа</option>
-            <option value="Колледж">🎓 Колледж</option>
-            <option value="ВУЗ">🏛 ВУЗ</option>
-        </select>
-    </div>
+    <label>Вид работы</label>
+    <select id="type" onchange="update()">
+        <option value="Реферат">📝 Реферат</option>
+        <option value="Презентация">📊 Презентация</option>
+        <option value="Доклад">🎤 Доклад</option>
+        <option value="Проект">💡 Проект</option>
+        <option value="Переписать лекцию">🖋 Переписать лекцию</option>
+    </select>
     
     <div class="row" style="margin-top:10px">
-        <div style="flex:1">
-            <label id="unit-label">Кол-во страниц</label>
-            <input type="number" id="count" placeholder="0" oninput="update()">
-        </div>
-        <div style="flex:1">
-            <div class="label-row">
-                <label>Дедлайн</label>
-                <span class="tip-icon" onclick="showTip('deadline')">?</span>
-            </div>
-            <input type="text" id="date" maxlength="5" placeholder="25.05" oninput="update()">
-        </div>
+        <div style="flex:1"><label id="unit-label">Кол-во страниц</label><input type="number" id="count" placeholder="0" oninput="update()"></div>
+        <div style="flex:1"><div class="label-row"><label>Дедлайн</label><span class="tip-icon" onclick="showTip('deadline')">?</span></div><input type="text" id="date" maxlength="5" placeholder="25.05" oninput="update()"></div>
     </div>
 </div>
 
 <div class="card">
-    <div class="label-row">
-        <label>Детали и бюджет</label>
-        <span class="tip-icon" onclick="showTip('details')">?</span>
-    </div>
-    <textarea id="details" rows="2" placeholder="Шрифт Times New Roman, тема..." oninput="update()"></textarea>
-    <div style="margin-top:10px">
-        <label>Сумма (₽)</label>
-        <input type="text" id="price" placeholder="500" oninput="update()">
-    </div>
+    <div class="label-row"><label>Детали и бюджет</label><span class="tip-icon" onclick="showTip('details')">?</span></div>
+    <textarea id="details" rows="2" placeholder="Шрифт, тема, требования..." oninput="update()"></textarea>
+    <div style="margin-top:10px"><label>Сумма (₽)</label><input type="text" id="price" placeholder="500" oninput="update()"></div>
 </div>
 
 <div class="card" style="padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
@@ -163,9 +129,7 @@
     <button class="secondary-btn" onclick="tg.openTelegramLink('https://t.me/OTZblBblawarem')">✍️ Отзыв</button>
 </div>
 
-<div class="disclaimer">
-    💳 <b>Предоплата 100%</b> | ✅ Без антиплагиата
-</div>
+<div class="disclaimer">💳 <b>Предоплата 100%</b> | ✅ Без антиплагиата</div>
 
 <script>
     const tg = window.Telegram.WebApp;
@@ -173,34 +137,22 @@
 
     function showTip(f) {
         const tips = {
-            level: "Укажите уровень сложности работы.",
             deadline: "Дата сдачи (ДД.ММ).",
-            details: "Укажите тему и важные требования (источники, оформление)."
+            details: "Укажите тему и важные требования."
         };
         tg.showAlert(tips[f]);
     }
 
     function checkNight() {
         const now = new Date();
-        // Настройка часового пояса МСК+6 (Якутск)
         const options = { timeZone: 'Asia/Yakutsk', hour: 'numeric', hour12: false };
         const h = parseInt(new Intl.DateTimeFormat('ru-RU', options).format(now));
-        
         const isN = h >= 23 || h < 7;
-        const sT = document.getElementById('status-text');
-        const sD = document.getElementById('status-dot');
-        const rT = document.getElementById('response-time');
-
         if (isN) {
-            sT.innerText = "Статус: Сплю"; 
-            sT.style.color = "var(--hint)";
-            sD.className = "status-dot dot-offline"; 
-            rT.innerText = "Отвечу утром (МСК+6)";
-        } else {
-            sT.innerText = "Статус: Свободен";
-            sT.style.color = "var(--accent-green)";
-            sD.className = "status-dot dot-online";
-            rT.innerText = "Ответ: 5-10 мин";
+            document.getElementById('status-text').innerText = "Статус: Сплю";
+            document.getElementById('status-text').style.color = "var(--hint)";
+            document.getElementById('status-dot').className = "status-dot dot-offline";
+            document.getElementById('response-time').innerText = "Отвечу утром (МСК+6)";
         }
     }
 
@@ -211,14 +163,13 @@
         tg.HapticFeedback.impactOccurred('light');
     }
 
-    // Синхронизация с темой ТГ при запуске
     if (tg.colorScheme === 'dark') {
         document.body.setAttribute('data-theme', 'dark');
         document.getElementById('theme-btn').innerText = '🌙';
     }
 
     function update() {
-        const type = document.getElementById('type').value, level = document.getElementById('level').value,
+        const type = document.getElementById('type').value,
               count = document.getElementById('count').value, date = document.getElementById('date').value,
               price = document.getElementById('price').value, det = document.getElementById('details').value || 'нет',
               urg = document.getElementById('urgent').checked;
@@ -228,18 +179,16 @@
         document.getElementById('preview').classList.toggle('show', !!show);
 
         let h = urg ? '🚨 СРОЧНЫЙ ЗАКАЗ 🚨\n' : '';
-        document.getElementById('preview').innerText = `${h}1. Вид: ${type} (${level})\n2. Кол-во: ${count}\n3. Дедлайн: ${date}\n4. Сумма: ${price} руб.\n5. Детали: ${det}\n---\n✅ Согласен на 100% предоплату и отсутствие антиплагиата.`;
+        document.getElementById('preview').innerText = `${h}1. Вид: ${type}\n2. Кол-во: ${count}\n3. Дедлайн: ${date}\n4. Сумма: ${price} руб.\n5. Детали: ${det}\n---\n✅ Согласен на 100% предоплату.`;
     }
 
     function copy() {
         const c = document.getElementById('count'), d = document.getElementById('date'), p = document.getElementById('price');
         if (!c.value || d.value.length < 4 || !p.value) { tg.showAlert("Заполните поля!"); return; }
-        
         const area = document.createElement("textarea");
         area.value = document.getElementById('preview').innerText;
         document.body.appendChild(area); area.select();
         document.execCommand('copy'); document.body.removeChild(area);
-        
         tg.HapticFeedback.notificationOccurred('success');
         tg.showAlert("Анкета скопирована!");
         setTimeout(() => tg.openTelegramLink("https://t.me/awarem"), 800);
@@ -252,8 +201,7 @@
         }
     }
 
-    checkNight(); 
-    update();
+    checkNight(); update();
 </script>
 </body>
 </html>
